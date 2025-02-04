@@ -1,3 +1,3 @@
 # isofin
 Isogeometric Fiber Networks 
-[](logo/ChatGPT_logo.webp)
+![](logo/ChatGPT_logo.webp)
