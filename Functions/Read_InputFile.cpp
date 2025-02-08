@@ -1,7 +1,7 @@
 // Function to read IGA mesh data stored in text file.
 #include <iostream>
 #include <fstream>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Dense>
+#include</Users/sotiriskakaletsis/Documents/GitHub/isofin/Eigen/Eigen/Dense>
 #include<string>
 #include <cmath>
 #include <vector>

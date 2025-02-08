@@ -1,5 +1,5 @@
 #include<iostream>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Dense>
+#include</Users/sotiriskakaletsis/Documents/GitHub/isofin/Eigen/Eigen/Dense>
 using namespace Eigen;
 using namespace std;
 Vector3d tangent_dr( Vector3d &a1,Vector3d &a1r, double norm_a1 )

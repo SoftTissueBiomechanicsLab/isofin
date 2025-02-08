@@ -1,0 +1,29 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/opt/homebrew/include",
+                "/opt/homebrew/opt/libomp/include"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "compilerArgs": [
+                "-fopenmp"
+            ],
+            "intelliSenseMode": "macos-clang-x64",
+            "browse": {
+                "path": [
+                    "/opt/homebrew/include",
+                    "/opt/homebrew/lib",
+                    "/opt/homebrew/opt/libomp/include"
+                ]
+            }
+        }
+    ],
+    "version": 4
+}

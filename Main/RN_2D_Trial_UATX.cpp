@@ -1,10 +1,10 @@
-#include </home/smm5969/Desktop/cpp/Functions/AllFunctions_JS.cpp>
+#include </Users/sotiriskakaletsis/Documents/GitHub/isofin/Functions/AllFunctions_JS.cpp>
 //#include <C:\Users\smm5969\Box Sync\Fibrin CPP\John Snow\Functions\AllFunctions.cpp>
 #include <iostream>
 #include <cmath>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Dense>
+#include</Users/sotiriskakaletsis/Documents/GitHub/isofin/Eigen/Eigen/Dense>
 //#include<Eigen/Dense>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Sparse>
+#include</Users/sotiriskakaletsis/Documents/GitHub/isofin/Eigen/Eigen/Sparse>
 //#include<Eigen/Sparse>
 #include <tuple>
 #include <math.h>
@@ -20,11 +20,11 @@
 // Direct 
 //#include <Eigen/SparseCholesky> 
 //#include <Eigen/SparseLU> 
-#include </home/smm5969/Desktop/cpp/Eigen/Eigen/SparseQR> 
+#include </Users/sotiriskakaletsis/Documents/GitHub/isofin/Eigen/Eigen/SparseQR> 
 //#include <Eigen/OrderingMethods>
 
 // Iterative
-#include </home/smm5969/Desktop/cpp/Eigen/Eigen/IterativeLinearSolvers>
+#include </Users/sotiriskakaletsis/Documents/GitHub/isofin/Eigen/Eigen/IterativeLinearSolvers>
 
 
 

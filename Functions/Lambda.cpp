@@ -1,5 +1,5 @@
 #include<iostream>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Dense>
+#include</Users/sotiriskakaletsis/Documents/GitHub/isofin/Eigen/Eigen/Dense>
 using namespace Eigen;
 using namespace std;
 Matrix3d Lambda( Vector3d &N0, Vector3d &N )
