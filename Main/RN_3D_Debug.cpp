@@ -1,10 +1,10 @@
-#include </home/smm5969/Desktop/cpp/Functions/AllFunctions_JS.cpp>
+#include <Functions/AllFunctions_JS.cpp>
 //#include <C:\Users\smm5969\Box Sync\Fibrin CPP\John Snow\Functions\AllFunctions.cpp>
 #include <iostream>
 #include <cmath>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Dense>
+#include<Eigen/Eigen/Dense>
 //#include<Eigen/Dense>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Sparse>
+#include<Eigen/Eigen/Sparse>
 //#include<Eigen/Sparse>
 #include <tuple>
 #include <math.h>
@@ -20,11 +20,11 @@
 // Direct 
 //#include <Eigen/SparseCholesky> 
 //#include <Eigen/SparseLU> 
-#include </home/smm5969/Desktop/cpp/Eigen/Eigen/SparseQR> 
+#include <Eigen/Eigen/SparseQR> 
 //#include <Eigen/OrderingMethods>
 
 // Iterative
-#include </home/smm5969/Desktop/cpp/Eigen/Eigen/IterativeLinearSolvers>
+#include <Eigen/Eigen/IterativeLinearSolvers>
 
 
 
@@ -41,9 +41,9 @@ int main ()
 {    
 	// String
     string InputFileDir,MeshFileDir,MeshFilePath,MeshFileName,ResultFileDir,ResultFileName;
-    InputFileDir="//home//smm5969//Desktop//cpp//Debug//Input//";// directory where mesh data and input file is stored.
-    MeshFileDir="//home//smm5969//Desktop//cpp//Debug//Input//MeshData//";// directory where mesh data and input file is stored.
-	ResultFileDir="//home//smm5969//Desktop//cpp//Debug//Results//"; // directory where result data and input file is stored.
+    InputFileDir="C://Users//mjl3967//Documents//Projects//project//isofin_results//Debug//Input//";// directory where mesh data and input file is stored.
+    MeshFileDir="C://Users//mjl3967//Documents//Projects//project//isofin_results//Debug//Input//MeshData//";// directory where mesh data and input file is stored.
+	ResultFileDir="C://Users//mjl3967//Documents//Projects//project//isofin_results//Debug//Results//"; // directory where result data and input file is stored.
 	// Scalars
 	double Max_Disp;
 	double u0; // Big number to identify unassigned displacement dofs.
