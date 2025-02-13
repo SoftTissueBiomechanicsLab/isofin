@@ -1,6 +1,6 @@
 #include<iostream>
 #include<cmath>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Dense>
+#include"../Eigen/Eigen/Dense"
 //#include <C:\Users\smm5969\Box Sync\Fibrin CPP\Functions\cross_vM.cpp>
 using namespace Eigen;
 using namespace std;

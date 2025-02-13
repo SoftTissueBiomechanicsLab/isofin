@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#include </home/smm5969/Desktop/cpp/Eigen/Eigen/Dense>
+#include "../Eigen/Eigen/Dense"
 #include <tuple>
 using namespace std;
 using namespace Eigen;

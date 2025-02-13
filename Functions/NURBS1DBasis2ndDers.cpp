@@ -1,5 +1,5 @@
 #include<iostream>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Dense>
+#include"../Eigen/Eigen/Dense"
 using namespace std;
 using namespace Eigen;
 MatrixXd NURBS1DBasis2ndDers(double xi,int order,RowVectorXd knotVector,RowVectorXd weights)

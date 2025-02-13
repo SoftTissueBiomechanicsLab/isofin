@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Dense>
+#include"../Eigen/Eigen/Dense"
 using namespace std;
 using namespace Eigen;
 typedef Matrix <int, 1, Dynamic> RowVectorXi; // define row vector for integers.

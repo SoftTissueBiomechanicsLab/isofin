@@ -1,6 +1,6 @@
 #include<iostream>
 #include<cmath>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Dense>
+#include"../Eigen/Eigen/Dense"
 using namespace Eigen;
 using namespace std;
 Matrix3d Rotation_dr( Vector3d &t, Vector3d &tr, double psi, double psi_r )

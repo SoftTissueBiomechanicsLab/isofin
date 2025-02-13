@@ -1,9 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Dense>
+#include"../Eigen/Eigen/Dense"
 //#include<Eigen/Dense>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Sparse>
+#include"../Eigen/Eigen/Sparse"
 //#include<Eigen/Sparse>
 #include <tuple>
 #include <math.h>

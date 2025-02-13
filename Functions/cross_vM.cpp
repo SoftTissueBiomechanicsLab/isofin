@@ -1,5 +1,5 @@
 #include<iostream>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Dense>
+#include"../Eigen/Eigen/Dense"
 using namespace Eigen;
 using namespace std;
 Matrix3d cross_vM( Vector3d &v, Matrix3d &M )

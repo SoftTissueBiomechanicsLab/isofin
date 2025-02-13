@@ -1,5 +1,5 @@
 #include<iostream>
-#include</home/smm5969/Desktop/cpp/Eigen/Eigen/Dense>
+#include"../Eigen/Eigen/Dense"
 using namespace Eigen;
 using namespace std;
 double ben_dr( Matrix3d &LT0T,Matrix3d &LTt,Matrix3d &LT0T1,Matrix3d &LTt1,Matrix3d &LTtr,Matrix3d &LTt1r,Matrix3d &RT,Matrix3d &Rt,Matrix3d &RT1,Matrix3d &Rt1,Matrix3d &Rtr,Matrix3d &Rt1r,Vector3d &a1,Vector3d &a1r,Matrix3d &A0,double alpha )
