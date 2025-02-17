@@ -19,9 +19,10 @@ typedef SparseMatrix<double, RowMajor> SpMat_RM; // declares a row-major sparse 
 typedef SparseVector<double,RowMajor> SpVec_RM; // declares a row-major sparse vector type of double
 
 // Function Description
-// to be oontinued ......
+// to be continued ......
 tuple<SpMat_RM,MatrixXd,MatrixXd,MatrixXd>Network_KR_Parallel(MatrixXd &P,MatrixXd &Q,vector<Patch_Structure> &Patch,vector<Patch_Structure> &Patch_Bs, MatrixXd &A0, MatrixXd &A0_Bs, RowVectorXd &Mat,RowVectorXd &Mat_Arcs, RowVectorXd &Mat_Bs, MatrixXi &DOF,MatrixXd &D_DOF,MatrixXd &F_DOF,double u0,int num_threads)
 {   
+	
 	//Scalars
 	int i,j;
 	int order,num_cpt,Nele,ngp,len_kv,patch_size,patch_bs_size;

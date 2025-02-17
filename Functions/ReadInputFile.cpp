@@ -22,7 +22,7 @@ void ReadInputFile(string &InputFileDir,string &MeshFileDir,string &MeshFileName
     cout<<endl<<"Please enter file name of the Input file"<<endl<<endl; // Ask for name of input file.
     cin>>InputFileName;
 	InputFilePath = InputFileDir+InputFileName+".txt";
-	InputFile.open(InputFilePath); // Open input file. 
+	InputFile.open(InputFilePath); // Open input file.
 	InputFile>>MeshFileName; // Read mesh file name.
 	MeshFilePath=MeshFileDir+MeshFileName+".txt";
 	

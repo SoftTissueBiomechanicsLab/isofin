@@ -148,6 +148,11 @@ tuple<VectorXd, VectorXd> Gauss_quad(int order)
 	        wts(8)=0.0666713443086881;
 	        wts(9)=0.0666713443086881;
 			return make_tuple(pts,wts);
-		
+
+			default:
+			// Handles unsupported Gauss Point orders
+			//cerr << "Error: Unsupported Gauss quadrature order: " << order << endl;
+			//return make_tuple(VectorXd(),VectorXd());
+			throw invalid_argument("Unsupported Gauss quadrature order: " + to_string(order));
 	}	
 }
