@@ -1,0 +1,3 @@
+1) Input_File_Generation : This script generated input file for 2D and 3D (undulated and straight) networks. It call network generator
+function. You can edit parameters like boundary conditions, mesh size, cpu cored, iterations etc.
+

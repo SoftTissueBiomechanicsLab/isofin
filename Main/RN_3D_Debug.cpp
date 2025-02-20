@@ -40,9 +40,9 @@ int main ()
 {    
 	// String
     string InputFileDir,MeshFileDir,MeshFilePath,MeshFileName,ResultFileDir,ResultFileName;
-   InputFileDir="//home//datastore//Matt//IGABeams//isofin_input//input_files//";// directory where mesh data and input file is stored.
-    MeshFileDir="//home//datastore//Matt//IGABeams//isofin_input//mesh_files//";// directory where mesh data and input file is stored.
-	ResultFileDir="//home//datastore//Matt//IGABeams//isofin_results//"; // directory where result data and input file is stored.
+	InputFileDir="..//Input_files//";// directory where mesh data and input file is stored.
+    MeshFileDir="..//Mesh_files//";// directory where mesh data and input file is stored.
+	ResultFileDir="..//Results//Outputs//3D//"; // directory where result data and input file is stored.
 	// Scalars
 	double Max_Disp;
 	double u0; // Big number to identify unassigned displacement dofs.

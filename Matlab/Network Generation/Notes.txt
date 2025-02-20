@@ -1,0 +1,4 @@
+1) Fractal_NetworkGenerator_3D : This script generated 3D networks (straight fibers) based on a fractal algorithm. These networks are simulated 
+using c++ code
+
+2) Undulating_Networks : This script introduces undulations based on chosen parameters in existing straight fiber networks 

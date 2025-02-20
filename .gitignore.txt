@@ -1,2 +1,6 @@
 .vs/*
 Eigen/out/*
+Input_files/*
+Mesh_files/*
+Results/*
+Networks/*

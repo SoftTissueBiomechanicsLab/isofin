@@ -1,0 +1,8 @@
+1) RN_3D_Paraview : This function calculates line end point of each element to be written in Paraview. It also calculates following 
+physical quantities for each element: strain, curvature, strain energy and its components (bending, membrane and torsion).
+Calls Patch_Energy function, which calculates above physical quantities for a patch of elements.
+
+2) RN_3D_Plot_Deformed : Plots deformed network in matlab
+
+3) Write_VTK_Network_Line : This function actually creates the vtk file and writes coordinates of lines and physical quantities associated
+with them

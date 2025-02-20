@@ -1,0 +1,17 @@
+1) Branch_It : Recursive function to form fibers in a unit cube. Three fibers at a junction
+
+2) cross_vv : Calculated cross product of two 3D vectors (faster than inbuilt Matlab function)
+
+3) Isotropy_Criteria : This simply checks if the fiber ends on each face of the cube are within the acceptable range
+(Not based on structural or mechanical parameters)
+
+4) PostProcess_3D_Network : Called by Fractal_NetworkGenerator_3D to extend lengths of any dangling fibers near the faces of the cube.
+
+5) PtInBox : Called by Branch_It to check if the point is inside the box.
+
+6) terminate: Called by Branch_It to cut the fibers which have ends outside the box.
+
+7) Undulate_3D_Network :  Called by Undulating Networks script. Takes straight fiber network data and adds additional information required
+to generate mesh for undulated network.
+
+ 
