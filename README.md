@@ -122,11 +122,42 @@ Once we have set these parameters, we can run the script to generate our mesh an
 
 After that, you are ready to run the analysis. The *.cpp files we need for the ananlysis are found in "isofin/Main". Since we are using a 3D network, we need to use "RN_3D_Trial_UATX.cpp". Before compiling, be sure your "InputFileDir" and "MeshFileDir" contain your input and mesh files, respectively, and be sure to create a folder to store your results in. Finally, ensure you have a C++ compiler, the C++ Standard Libraries, and OpenMP on your machine. We will use the following terminal command to compile this *.cpp file:
 ```
-  g++ RN_3D_Trial_UATX.cpp -o Analysis_3D -O3 -fopenmp -std=c++17
+g++ RN_3D_Trial_UATX.cpp -o Analysis_3D -O3 -fopenmp -std=c++17
 ```
 Once compiled, we will run "Analysis_3D.exe". It will ask us to input the name of our input file, which is "input_U_BIAX_200_Case0_1_P5_MS4.txt". From there, the analysis begins. Here we would like to note: if your first strain increment is -nan%, the paths to your input and mesh files are incorrect. The analysis will take some time; on our machine, it took 52 minutes with 36 cores. The results files were saved in "isofin/Results/Outputs/3D". Next, we will turn these results files into *.vtk files and view them in ParaView.
 
-For our final step, we will navigate to "isofin/Matlab/Output Generation". Because we created an undulated network, we will use "Paraview_VTK_Generator_Line_3D_Undulated.m". 
+For our final step, we will navigate to "isofin/Matlab/Output Generation". Because we created an undulated network, we will use "Paraview_VTK_Generator_Line_3D_Undulated.m". Be sure to select the correct deformation, fiber number, Case numbers, and network parameters for your network. Here, we use the following:
+```matlab
+% Select deformation type for results
+deformation_type = 'BIAX';
+% Select fiber number and case numbers for files
+fiber_num=350; Case=1; New_Case=1; 
 
-Thank you for using Isofin! If you have any questions or comments regarding this project, please reach out to us via email.
+% Assign other parameters the same as in "Input_File_Generation.m"
+power=4; ele_size=0.4/(2^(power));
+order=5; end_cpt_factor=1/5; trim_factor=0.01; Amp=0.05;
+```
+Be sure you are using the correct directories for your network geometry and results files. This script will create a directory to store your newly created *.vtk files; you can adjust this to control where your *.vtk files are saved. After this script runs, you will have a *.vtk file for each increment in the simulation. If you wish to have less files output, than adjust the "num_increments" variable in the following section:
+```matlab
+% Group each increment into an individual cell 
+num_increments = size(CPTS,1)/4;
+CPTS_cell = cell(num_increments);
+for i=1:num_increments
+    CPTS_cell{i}=CPTS(4*(i-1)+1:4*(i-1)+4,:);
+end
+```
+Next, you can open your results in ParaView. The following variables are output: 
+1) E: Membrane strain
+2) R1-R3: Rotations about the X,Y, and Z axes
+3) U1-U3: Displacements in the X,Y and Z directions
+4) Tube Normals: Normal vectors of each beam element
+5) be: Bending energy
+6) me: Membrane energy
+7) se: Shear energy
+8) te: Torsion energy
+
+You can also analyze these variables to, for instance, understand how energy ratios change throughout the deformation for a given loading and type of fiber network. 
+
+## Troubleshoot
+Thank you for using Isofin! For any inquiries, additional help, customization, or any other problems/concerns/suggestions, please reach out to us via email.
 The original author of these codes is Soham Mane (sohammane@utexas.edu). Both Matthew J Lohr (mlohr@utexas.edu) and Sotiris Kakaletsis (kakalets@utexas.edu) edited the codes, prepared them for sharing, and created this documentation.
