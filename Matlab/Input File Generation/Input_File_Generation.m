@@ -1,20 +1,19 @@
  %% TXT file writing and reading.
 clearvars;close all;clc
 tic
-% 1 for 3D straight and 2 for 3D undulated and 3 for 2D straight
-type=1;
 %% Add paths
 addpath('../Formulation/German Formulation/C_files')
 addpath('../Formulation/German Formulation/nurbs_toolbox')
 addpath('../Formulation/German Formulation/With Torsion/Functions_RN Parallel/3D_New');
 addpath('Functions')
 %% 3D Network :
-fiber_num=200;
+type=2; % 1 for 3D straight and 2 for 3D undulated and 3 for 2D straight
+fiber_num=350;
 Case=1;
 New_Case=1;
-% deformation_types are SSX for simple shear, UAX for uniaxial tension, and BIAX for biaxial tension.
+% deformation_types are SSX for simple shear, UAX for uniaxial, and BIAX for biaxial.
 % You can adjust these as desired.
-deformation_type = 'SSX';
+deformation_type = 'BIAX';
 
 for power=4
     if type==1
@@ -61,7 +60,7 @@ for power=4
     % Material Properties
     r=0.001;E=10^6;v=0.2;
     % Boundary conditions
-    Max_Disp=0.5;
+    Max_Disp=0.1;
     % Big number to identify unassigned displacement dofs.
     u0=10^10;
     % Displacement BC - can switch what faces BCs are applied to as needed

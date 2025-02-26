@@ -3,13 +3,13 @@ function [X,EPS,KAPPA,ME,BE,TE,SE] = RN_3D_ParaView(P,Q,Patch,A0,Mat,ele_size)
 addpath('../Formulation/German Formulation/C_files')
 addpath('../Formulation/German Formulation/nurbs_toolbox')
 
-X=cell(size(Patch,2),1);
-EPS=cell(size(Patch,2),1);
-KAPPA=cell(size(Patch,2),1);
-ME=cell(size(Patch,2),1);
-BE=cell(size(Patch,2),1);
-TE=cell(size(Patch,2),1);
-SE=cell(size(Patch,2),1);
+X=cell(1,size(Patch,2));
+EPS=cell(1,size(Patch,2));
+KAPPA=cell(1,size(Patch,2));
+ME=cell(1,size(Patch,2));
+BE=cell(1,size(Patch,2));
+TE=cell(1,size(Patch,2));
+SE=cell(1,size(Patch,2));
 
 for i=1:size(Patch,2)
 % Get patch information.

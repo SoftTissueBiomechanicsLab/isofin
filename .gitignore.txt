@@ -1,6 +1,8 @@
 .vs/*
+Functions/.vscode/*
 Eigen/out/*
 Input_files/*
 Mesh_files/*
 Results/*
-Networks/*
+Matlab/Networks/*
+"Matlab/Network Generation/?/*"

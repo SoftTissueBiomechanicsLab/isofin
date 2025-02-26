@@ -7,67 +7,67 @@
 
 clearvars; close all; clc
 addpath Functions
-%% Generate networks
-% Network parameters
-% range_theta: polar angle of children segment wrt parent segment
-% range_phi: azimuthal angle of children segment wrt parent segment
-% range_R: range of length of fibers.
-% NumIter: Number of iterations to use
-% num_req: required number of networks.
-% num_net: network number
-% fiber_num: range of number of fibers required in the network.
-% net_type: Straight or Undulated network
 
-range_theta=[pi/6,pi/3]; 
-range_phi=[0,0]; 
-range_R=[0.1,0.2];
-NumIter=10;
-num_req=1; 
-num_net=0;
-fiber_num=[200,300]; 
-fiber_num_min = fiber_num(1);
-% net_type is only for naming conventions. To create undulated networks,
-% run the output network through "Undulating_Networks".
-net_type = 'Straight';
+%% Network Settings
+range_theta=[pi/6,pi/3]; % Polar angle of children segment wrt parent segment
+range_phi=[0,0]; % Azimuthal angle of children segment wrt parent segment
+range_R=[0.1,0.2]; % Range of length of fibers
+NumIter=15; % Number of iterations to use in "Branch_It.m"
+num_req=1; % Required number of networks 
+num_net=0; % Initialized network number
+fiber_num=[350,600]; % Range of number of fibers required in the network
+fiber_num_min = fiber_num(1); % Used to avoid broadcast variable warning
+net_type = 'Undulated'; % "Straight" or "Undulated". Used for naming convention only
+% To create undulated networks, run the output network through "Undulating_Networks".
 
+% Create the directory to store the network
 filepath = ['../Networks/Data/3D/',net_type,'/',num2str(fiber_num_min)];    
 if ~exist(filepath,'dir')
     mkdir(filepath)
 end
 
+%% Generate networks
+rng default
 while num_net<=num_req
-num=4*num_req;
-% parfor k=1+num_req:num+num_req % parallel loop to make generation faster.
+    num=4*num_req;
+    % Start parallel pool - set desired number of workers
+    num_workers = length(1+num_req:num+num_req);
+    parpool('local',num_workers);
 
-for k=1+num_req:num+num_req    
-    n=2;
-    key=1;
-    % randomly select the first segment in the network
-    SegEnds=rand(3,2);SegEnds(:,2)=SegEnds(:,1)+(rand*(range_R(2)-range_R(1))+range_R(1))*...
-        (SegEnds(:,2)-SegEnds(:,1))/norm(SegEnds(:,2)-SegEnds(:,1));
-    % SegEnds=[0.3,0.4;0.1,0.3;0,0];
-    Junction=[];
-    % Use fiber_num_min to avoide broadcast variable warning
-    filename = [filepath,'/Case',num2str(k)];    
-    % Branch the first segment to form other segments.
-    Branch_It(n,SegEnds,range_theta,range_phi,range_R,NumIter,key,filename)
-end
-% Select Networks with sufficient fibers
-path = ['../Networks/Data/3D/',net_type,'/',num2str(fiber_num_min),'/Case'];
-for k=1+num_req:num+num_req
-    filepath_old=[path,num2str(k),'.mat'];
-    filepath_new=[path,num2str(num_net),'.mat'];
-    load(filepath_old,'Segment')
-    if size(Segment,1)<fiber_num(1) || size(Segment,1)>fiber_num(2)
-       delete(filepath_old)
-    else
-        movefile(filepath_old,filepath_new);
-        num_net=num_net+1;
+    parfor k=1+num_req:num+num_req % parallel loop to make generation faster.
+        n=2;
+        key=1;
+        % randomly select the first segment in the network
+        SegEnds=rand(3,2);
+        SegEnds(:,2)=SegEnds(:,1)+(rand*(range_R(2)-range_R(1))+range_R(1))*...
+            (SegEnds(:,2)-SegEnds(:,1))/norm(SegEnds(:,2)-SegEnds(:,1));
+        %SegEnds=[0.3,0.4;0.1,0.3;0,0];
+        Junction=[];
+        % Use fiber_num_min to avoide broadcast variable warning
+        filename = [filepath,'/Case',num2str(k)];    
+        % Branch the first segment to form other segments.
+        Branch_It(n,SegEnds,range_theta,range_phi,range_R,NumIter,key,filename)
+    end
+    % Shut down parallel pool
+    p = gcp;
+    delete(gcp('nocreate'))
+
+    % Select Networks with sufficient fibers
+    path = ['../Networks/Data/3D/',net_type,'/',num2str(fiber_num_min),'/Case'];
+    for k=1+num_req:num+num_req
+        filepath_old=[path,num2str(k),'.mat'];
+        filepath_new=[path,num2str(num_net),'.mat'];
+        load(filepath_old,'Segment')
+        if size(Segment,1)<fiber_num(1) || size(Segment,1)>fiber_num(2)
+        delete(filepath_old)
+        else
+            movefile(filepath_old,filepath_new);
+            num_net=num_net+1;
+        end
     end
 end
-end
 %% Post process the remaining networks
-parfor k=1:num_req
+for k=1:num_req
     filepath = ['../Networks/Data/3D/',net_type,'/',num2str(fiber_num_min),'/Case',num2str(k)];
     PostProcess_3D_Network(filepath)
 end
