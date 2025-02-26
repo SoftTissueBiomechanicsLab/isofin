@@ -45,17 +45,17 @@ We will split this tutorial into four steps as listed above. First, we will crea
 range_theta=[pi/6,pi/3]; % Polar angle of children segment wrt parent segment
 range_phi=[0,0]; % Azimuthal angle of children segment wrt parent segment
 range_R=[0.1,0.2]; % Range of length of fibers
-NumIter=10; % Number of iterations to use in "Branch_It.m"
-num_req=4; % Required number of networks 
+NumIter=15; % Number of iterations to use in "Branch_It.m"
+num_req=1; % Required number of networks 
 num_net=0; % Initialized network number
-fiber_num=[200,300]; % Range of number of fibers required in the network
+fiber_num=[350,600]; % Range of number of fibers required in the network
 ```
 
-Using these settings, we generated 6 network files in "Matlab/Networks/Data/3D/Undulated/200", "Case0.mat" through "Case5.mat". We will pick "Case0.mat" to use for the remainder of this tutorial. Next, we will apply an undulation to these networks. We will use the following parameters for our undulated network. Remember to specify the correct value for "Case".
+Using these settings, we generated 6 network files in "Matlab/Networks/Data/3D/Undulated/350", "Case0.mat" and "Case1.mat". We will pick "Case1.mat" to use for the remainder of this tutorial. Next, we will apply an undulation to these networks. We will use the following parameters for our undulated network. Remember to specify the correct value for "Case".
 ```matlab
 % Specifiy network
-num_fibers = 200;
-Case=0;
+num_fibers = 350;
+Case=1;
 New_Case=1;
 % Row vector containing periods of sin undulations that can be introduced in the fiber.
 period = [0.5,1,1.5,2];
@@ -64,19 +64,19 @@ num_periods=size(period,2);
 % based on its length. The longer the fiber, the more options it has.
 select_period=[0,0.1,0.2,0.4]; 
 ```
-This will then create "Case0_1.m", which we will use in our next step to generate input files.
+This will then create "Case1_1.m", which we will use in our next step to generate input files.
 
 Now, we will proceed to create input and mesh files for our analysis. Within "Matlab/Input File Generation" is "Input_File_Generation.m" which creates the files necessary to run an analysis. We will use the following parameters to pick the network we just created:
 ```matlab
 type=2; % 1 for 3D straight and 2 for 3D undulated and 3 for 2D straight
-fiber_num=200;
-Case=0;
+fiber_num=350;
+Case=1;
 New_Case=1;
 % deformation_types are SSX for simple shear, UAX for uniaxial, and BIAX for biaxial.
 % You can adjust these as desired.
-deformation_type = 'SSX';
+deformation_type = 'BIAX';
 ```
-It is important that you select the correct "type" of network you are using. Here, we are using a 3D undulated network, so we set "type=2". Also notice that we are using a simple shear deformation mode for this example. We will discuss our boundary conditions shortly. We will use the following parameters in generating our NURBS mesh:
+It is important that you select the correct "type" of network you are using. Here, we are using a 3D undulated network, so we set "type=2". Also notice that we are using a biaxial tension deformation mode for this example. We will discuss our boundary conditions shortly. We will use the following parameters in generating our NURBS mesh:
 ```matlab
 %% Mesh File parameters
         ele_size=0.4/(2^power);
@@ -90,15 +90,15 @@ We use the following material properties and boundary conditions for this exampl
 % Material Properties
 r=0.001;E=10^6;v=0.2;
 % Boundary conditions
-Max_Disp=0.5;
+Max_Disp=0.1;
 % Big number to identify unassigned displacement dofs.
 u0=10^10;
 % Displacement BC - can switch what faces BCs are applied to as needed
-Face_D(1,:)=[u0,u0,u0,u0]; % Face 1 (x=1)
-Face_D(2,:)=[u0,u0,u0,u0]; % Face 2 (x=0)
+Face_D(1,:)=[Max_Disp,0,0,0]; % Face 1 (x=1)
+Face_D(2,:)=[0,0,0,0]; % Face 2 (x=0)
 Face_D(3,:)=[u0,u0,u0,u0]; % Face 3 (y=1)
 Face_D(4,:)=[u0,u0,u0,u0]; % Face 4 (y=0)
-Face_D(5,:)=[Max_Disp,0,0,0]; % Face 5 (z=1)
+Face_D(5,:)=[0,0,Max_Disp,0]; % Face 5 (z=1)
 Face_D(6,:)=[0,0,0,0]; % Face 6 (z=0)
 
 % Force BC
@@ -124,7 +124,9 @@ After that, you are ready to run the analysis. The *.cpp files we need for the a
 ```
   g++ RN_3D_Trial_UATX.cpp -o Analysis_3D -O3 -fopenmp -std=c++17
 ```
-Once compiled, we will run "Analysis_3D.exe". It will ask us to input the name of our input file, which is "input_U_SSX_200_Case0_1_P5_MS4.txt". From there, the analysis begins. 
+Once compiled, we will run "Analysis_3D.exe". It will ask us to input the name of our input file, which is "input_U_BIAX_200_Case0_1_P5_MS4.txt". From there, the analysis begins. Here we would like to note: if your first strain increment is -nan%, the paths to your input and mesh files are incorrect. The analysis will take some time; on our machine, it took 52 minutes with 36 cores. The results files were saved in "isofin/Results/Outputs/3D". Next, we will turn these results files into *.vtk files and view them in ParaView.
+
+For our final step, we will navigate to "isofin/Matlab/Output Generation". Because we created an undulated network, we will use "Paraview_VTK_Generator_Line_3D_Undulated.m". 
 
 Thank you for using Isofin! If you have any questions or comments regarding this project, please reach out to us via email.
 The original author of these codes is Soham Mane (sohammane@utexas.edu). Both Matthew J Lohr (mlohr@utexas.edu) and Sotiris Kakaletsis (kakalets@utexas.edu) edited the codes, prepared them for sharing, and created this documentation.
