@@ -79,11 +79,11 @@ deformation_type = 'BIAX';
 It is important that you select the correct "type" of network you are using. Here, we are using a 3D undulated network, so we set "type=2". Also notice that we are using a biaxial tension deformation mode for this example. We will discuss our boundary conditions shortly. We will use the following parameters in generating our NURBS mesh:
 ```matlab
 %% Mesh File parameters
-        ele_size=0.4/(2^power);
-        MS=strcat('_MS',num2str(power));
-        order=5;
-        trim_factor=0.01;
-        Amp=0.05;
+ele_size=0.4/(2^power);
+MS=strcat('_MS',num2str(power));
+order=5;
+trim_factor=0.01;
+Amp=0.05;
 ```
 We use the following material properties and boundary conditions for this example:
 ```matlab
