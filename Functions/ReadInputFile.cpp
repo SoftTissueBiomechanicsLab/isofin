@@ -6,6 +6,7 @@
 #include <cmath>
 #include <vector>
 #include <tuple>
+#define _USE_MATH_DEFINES  // Define this macro before including cmath
 #include <cmath>
 #include <math.h>
 using namespace std;
