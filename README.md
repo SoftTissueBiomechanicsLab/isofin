@@ -124,7 +124,7 @@ After that, you are ready to run the analysis. The *.cpp files we need for the a
 ```
 g++ RN_3D_Trial_UATX.cpp -o Analysis_3D -O3 -fopenmp -std=c++17
 ```
-Once compiled, we will run "Analysis_3D.exe". It will ask us to input the name of our input file, which is "input_U_BIAX_200_Case0_1_P5_MS4.txt". From there, the analysis begins. Here we would like to note: if your first strain increment is -nan%, the paths to your input and mesh files are incorrect. The analysis will take some time; on our machine, it took 52 minutes with 36 cores. The results files were saved in "isofin/Results/Outputs/3D". Next, we will turn these results files into *.vtk files and view them in ParaView.
+Once compiled, we will run "Analysis_3D.exe". It will ask us to input the name of our input file, which is "input_U_BIAX_200_Case0_1_P5_MS4.txt". From there, the analysis begins. Here we would like to note: if your first strain increment is -nan%, the paths to your input and mesh files are incorrect. The analysis will take some time; on our machine, it took 52 minutes with 36 cores. The results files were saved in "isofin/Results/Outputs/3D". Be sure to create the directory that will store your results, otherwise, no data will be saved. Next, we will turn these results files into *.vtk files and view them in ParaView.
 
 For our final step, we will navigate to "isofin/Matlab/Output Generation". Because we created an undulated network, we will use "Paraview_VTK_Generator_Line_3D_Undulated.m". Be sure to select the correct deformation, fiber number, Case numbers, and network parameters for your network. Here, we use the following:
 ```matlab
