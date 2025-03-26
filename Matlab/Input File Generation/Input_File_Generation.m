@@ -96,7 +96,7 @@ for power=4
     Face_F(5,:)=[0,0,0,0]; % Face 5 (z=1)
     Face_F(6,:)=[0,0,0,0]; % Face 6 (z=0)
     % Analysis parameters
-    num_threads=36; % No of cores requested for analysis
+    num_threads=24; % No of cores requested for analysis
     num_inc=200; % No of increments.
     max_numiter=50; % Max no of iterations per increment
     max_attempts=10; % Max attempts per increment. (applied displacement halved per attempt)
