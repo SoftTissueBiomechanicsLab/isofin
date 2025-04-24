@@ -51,7 +51,7 @@ num_net=0; % Initialized network number
 fiber_num=[350,600]; % Range of number of fibers required in the network
 ```
 
-Using these settings, we generated 6 network files in "Matlab/Networks/Data/3D/Undulated/350", "Case0.mat" and "Case1.mat". We will pick "Case1.mat" to use for the remainder of this tutorial. Next, we will apply an undulation to these networks. We will use the following parameters for our undulated network. Remember to specify the correct value for "Case".
+Using these settings, we generated 2 network files in "Matlab/Networks/Data/3D/Undulated/350", "Case0.mat" and "Case1.mat". We will pick "Case1.mat" to use for the remainder of this tutorial. Next, we will apply an undulation to these networks. We will use the following parameters for our undulated network. Remember to specify the correct value for "Case".
 ```matlab
 % Specifiy network
 num_fibers = 350;
