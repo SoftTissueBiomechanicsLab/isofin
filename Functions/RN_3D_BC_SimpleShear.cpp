@@ -11,42 +11,92 @@ typedef SparseMatrix<double> SpMat; // declares a column-major sparse matrix typ
 
 tuple<MatrixXd,MatrixXd> RN_3D_BC_SimpleShear(int &num_cpt,MatrixXd &Cpt,MatrixXd &Face_D,MatrixXd &Face_F,double u0,double disp_ratio)
 { // This function applies boundary conditions on a unit cube;
+
+	// Set the minimum and maximum values for the hexahedron. Can add as function arguments in future iterations.
+	double xmin = 0.0, xmax = 1;
+	double ymin = 0.0, ymax = 1;
+	double zmin = 0.0, zmax = 1;
+	double eps = 1e-6;  // tolerance for floating-point comparison
+
 	vector<int> Face_x1,Face_x0,Face_y1,Face_y0,Face_z1,Face_z0,key;
 	key.assign(6,0); // set key size = 6 and value of each element = 0;
 	//// Identify cpts on the faces ////
-	for (int i=0;i<num_cpt;i++)
-	{   
-		// face 1 (x=1)
-		if(Cpt(0,i)==1 && Cpt(1,i)!=0 && Cpt(1,i)!=1 && Cpt(2,i)!=0 && Cpt(2,i)!=1 )
-		{   
-			Face_x1.resize(Face_x1.size()+1);Face_x1[key[0]]=i;key[0]=key[0]+1;
-		}
-		// face 2 (x=0)
-		if(Cpt(0,i)==0 && Cpt(1,i)!=0 && Cpt(1,i)!=1 && Cpt(2,i)!=0 && Cpt(2,i)!=1 )
+	for (int i = 0; i < num_cpt; i++)
+	{
+		double x = Cpt(0, i);
+		double y = Cpt(1, i);
+		double z = Cpt(2, i);
+
+		// face 1 (x = xmax)
+		if (fabs(x - xmax) < eps && y > ymin + eps && y < ymax - eps && z > zmin + eps && z < zmax - eps)
 		{
-			Face_x0.resize(Face_x0.size()+1);Face_x0[key[1]]=i;key[1]+=1;
+			Face_x1.push_back(i);
+			key[0]++;
 		}
-		// face 3 (y=1)
-		if(Cpt(1,i)==1 && Cpt(0,i)!=0 && Cpt(0,i)!=1 && Cpt(2,i)!=0 && Cpt(2,i)!=1 )
+		// face 2 (x = xmin)
+		if (fabs(x - xmin) < eps && y > ymin + eps && y < ymax - eps && z > zmin + eps && z < zmax - eps)
 		{
-			Face_y1.resize(Face_y1.size()+1);Face_y1[key[2]]=i;key[2]+=1;
+			Face_x0.push_back(i);
+			key[1]++;
 		}
-		// face 4 (y=0)
-		if(Cpt(1,i)==0 && Cpt(0,i)!=0 && Cpt(0,i)!=1 && Cpt(2,i)!=0 && Cpt(2,i)!=1 )
+		// face 3 (y = ymax)
+		if (fabs(y - ymax) < eps && x > xmin + eps && x < xmax - eps && z > zmin + eps && z < zmax - eps)
 		{
-			Face_y0.resize(Face_y0.size()+1);Face_y0[key[3]]=i;key[3]+=1;
+			Face_y1.push_back(i);
+			key[2]++;
 		}
-		// face 5 (z=1)(Fix rotations in all directions i.e fix second last control point of the fibers)
-		if((1-Cpt(2,i))<=0.05 && Cpt(1,i)!=0 && Cpt(1,i)!=1 && Cpt(0,i)!=0 && Cpt(0,i)!=1 )
+		// face 4 (y = ymin)
+		if (fabs(y - ymin) < eps && x > xmin + eps && x < xmax - eps && z > zmin + eps && z < zmax - eps)
 		{
-			Face_z1.resize(Face_z1.size()+1);Face_z1[key[4]]=i;key[4]+=1;
+			Face_y0.push_back(i);
+			key[3]++;
 		}
-		// face 6 (z=0) (Fix rotations in all directions i.e fix second last control point of the fibers)
-		if((Cpt(2,i)-0)<=0.05  && Cpt(1,i)!=0 && Cpt(1,i)!=1 && Cpt(0,i)!=0 && Cpt(0,i)!=1 )
+		// face 5 (z = zmax)
+		if ((zmax - z) <= 0.05 && x > xmin + eps && x < xmax - eps && y > ymin + eps && y < ymax - eps)
 		{
-			Face_z0.resize(Face_z0.size()+1);Face_z0[key[5]]=i;key[5]+=1;
-		}	
-    }        
+			Face_z1.push_back(i);
+			key[4]++;
+		}
+		// face 6 (z = zmin)
+		if ((z - zmin) <= 0.05 && x > xmin + eps && x < xmax - eps && y > ymin + eps && y < ymax - eps)
+		{
+			Face_z0.push_back(i);
+			key[5]++;
+		}
+	}
+	// for (int i=0;i<num_cpt;i++)
+	// {   
+	// 	// face 1 (x=1)
+	// 	if(Cpt(0,i)==1 && Cpt(1,i)!=0 && Cpt(1,i)!=1 && Cpt(2,i)!=0 && Cpt(2,i)!=1 )
+	// 	{   
+	// 		Face_x1.resize(Face_x1.size()+1);Face_x1[key[0]]=i;key[0]=key[0]+1;
+	// 	}
+	// 	// face 2 (x=0)
+	// 	if(Cpt(0,i)==0 && Cpt(1,i)!=0 && Cpt(1,i)!=1 && Cpt(2,i)!=0 && Cpt(2,i)!=1 )
+	// 	{
+	// 		Face_x0.resize(Face_x0.size()+1);Face_x0[key[1]]=i;key[1]+=1;
+	// 	}
+	// 	// face 3 (y=1)
+	// 	if(Cpt(1,i)==1 && Cpt(0,i)!=0 && Cpt(0,i)!=1 && Cpt(2,i)!=0 && Cpt(2,i)!=1 )
+	// 	{
+	// 		Face_y1.resize(Face_y1.size()+1);Face_y1[key[2]]=i;key[2]+=1;
+	// 	}
+	// 	// face 4 (y=0)
+	// 	if(Cpt(1,i)==0 && Cpt(0,i)!=0 && Cpt(0,i)!=1 && Cpt(2,i)!=0 && Cpt(2,i)!=1 )
+	// 	{
+	// 		Face_y0.resize(Face_y0.size()+1);Face_y0[key[3]]=i;key[3]+=1;
+	// 	}
+	// 	// face 5 (z=1)(Fix rotations in all directions i.e fix second last control point of the fibers)
+	// 	if((1-Cpt(2,i))<=0.05 && Cpt(1,i)!=0 && Cpt(1,i)!=1 && Cpt(0,i)!=0 && Cpt(0,i)!=1 )
+	// 	{
+	// 		Face_z1.resize(Face_z1.size()+1);Face_z1[key[4]]=i;key[4]+=1;
+	// 	}
+	// 	// face 6 (z=0) (Fix rotations in all directions i.e fix second last control point of the fibers)
+	// 	if((Cpt(2,i)-0)<=0.05  && Cpt(1,i)!=0 && Cpt(1,i)!=1 && Cpt(0,i)!=0 && Cpt(0,i)!=1 )
+	// 	{
+	// 		Face_z0.resize(Face_z0.size()+1);Face_z0[key[5]]=i;key[5]+=1;
+	// 	}	
+    // }        
 	
 	// Form D_DOF (for applying displacement boundary conditions on the edges) ////
 	MatrixXd D_DOF;D_DOF.resize(num_cpt,4);

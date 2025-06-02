@@ -9,9 +9,9 @@ addpath('../Formulation/German Formulation/With Torsion/Functions_RN Parallel/3D
 
 %% Find Deformed shape
 % Select deformation type for results
-deformation_type = 'SSX';
+deformation_type = 'BIAX';
 % Pick fiber number and Case number to analyze
-fiber_num=300; Case=1; 
+fiber_num=313; Case=2; 
 
 % Assign other parameters the same as in "Input_File_Generation.m"
 power=4; ele_size=0.4/(2^(power));
@@ -22,7 +22,8 @@ MS=strcat('_MS',num2str(power)); MS_case=strcat('__MS',num2str(power));
 folder_name=num2str(fiber_num);
 network_name=strcat(folder_name,'_',deformation_type,'_Case',num2str(Case),'_P',num2str(order),MS_case);
 disp(strcat('Visualizing: ',network_name))
-path_c = '../../Results/Outputs/3D/';
+path_c = '../../Results/Outputs/';
+
 % Load network
 load(['../Networks/Data/3D/Straight/',num2str(fiber_num),'/Case',num2str(Case)]);
 
@@ -31,8 +32,8 @@ MeshFileName=['Straight_',deformation_type,'_',num2str(fiber_num),'_Case',num2st
 ResultFileName=[MeshFileName,'_Result.txt'];
 ResultFilePath_c=[path_c,ResultFileName];
 CPTS=importdata(ResultFilePath_c);
+filepath = ['../../Results/Paraview/3D/',num2str(fiber_num),'_',num2str(Case),'/',deformation_type];
 
-filepath = ['../../Results/Paraview/3D/',num2str(fiber_num),'/',deformation_type];
 if ~exist(filepath,'dir')
     mkdir(filepath);
 end
@@ -54,7 +55,7 @@ P=CPTS(1:4,:);
 
 [XP,EPS,KAPPA,ME,BE,TE,SE] = RN_3D_ParaView(P,P,Patch,A0,Mat,ele_size);
 % Group each increment into an individual cell to avoid broadcast variable
-% warning
+% warning if using parfor
 num_increments = size(CPTS,1)/4;
 CPTS_cell = cell(num_increments);
 for i=1:num_increments
@@ -67,34 +68,14 @@ end
 % In each loop, we update the value of XQ to get the coordinates in
 % the ith increment, and use those to calculate the displacements
 % off the fibers in Write_VTK_Network_Line.
-parpool('local',8);
-parfor i=1:num_increments
+
+% Option to use parfor - just uncomment the below lines to do so
+% parpool('local',8);
+% par
+for i=1:num_increments
     Q = CPTS_cell{i};
     [XQ,EPS,KAPPA,ME,BE,TE,SE] = RN_3D_ParaView(P,Q,Patch,A0,Mat,ele_size);
     Write_VTK_Network_Line(XP,XQ,EPS,KAPPA,ME,BE,TE,SE,vtk_file,i);
 end
-p = gcp;
-delete(gcp('nocreate'))
-
-%% Total energy
-ME_network=zeros(1,size(CPTS,1)/4);BE_network=ME_network;TE_network=ME_network;SE_network=ME_network;
-parfor i=1:size(CPTS,1)/4
-    Q = CPTS_cell{i};
-    [XQ,EPS,KAPPA,ME,BE,TE,SE] = RN_3D_ParaView(P,Q,Patch,A0,Mat,ele_size);
-    t1=0;t2=0;t3=0;t4=0;
-    for j=1:size(ME,2)
-        t1=t1+sum(ME{j});t2=t2+sum(BE{j});
-        t3=t3+sum(TE{j});t4=t4+sum(SE{j});
-    end
-    ME_network(i,1)=t1;BE_network(i,1)=t2;TE_network(i,1)=t3;SE_network(i,1)=t4;
-end
-n=size(BE_network,1);
-strain=0.5*(0:1:n-1)./(n-1);
-figure; hold on;
-plot(strain,ME_network);plot(strain,BE_network);plot(strain,TE_network);plot(strain,SE_network);hold off;
-figure; hold on;
-plot(strain,ME_network./SE_network);plot(strain,BE_network./SE_network);plot(strain,TE_network./SE_network);hold off;
-
-
-
-
+% p = gcp;
+% delete(gcp('nocreate'))

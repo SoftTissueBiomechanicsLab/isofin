@@ -228,13 +228,3 @@ if fig=='on'
     end
 end
 end
-
-
-
-
-
-
-
-
-
-

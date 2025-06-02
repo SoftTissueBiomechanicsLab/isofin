@@ -1,4 +1,4 @@
-function [X,EPS,KAPPA,ME,BE,TE,SE] = RN_3D_ParaView(P,Q,Patch,A0,Mat,ele_size)
+function [X,EPS,KAPPA,ME,BE,TE,SE] = RN_3D_ParaView(P,Q,Patch,A0,Mat,ele_size,varargin)
 %% Code
 addpath('../Formulation/German Formulation/C_files')
 addpath('../Formulation/German Formulation/nurbs_toolbox')
@@ -11,7 +11,15 @@ BE=cell(1,size(Patch,2));
 TE=cell(1,size(Patch,2));
 SE=cell(1,size(Patch,2));
 
-for i=1:size(Patch,2)
+if nargin > 6
+    patch_num = varargin{1};
+else
+    patch_num = size(Patch,2);
+end
+
+
+
+for i=1:patch_num
 % Get patch information.
     order=Patch(i).order;kv=Patch(i).kv;
     w=Patch(i).wts;

@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES // Define this macro before including cmath to use M_PI on windows machines
 #include "../Functions/AllFunctions_JS.cpp"
 #include <iostream>
 #include <cmath>

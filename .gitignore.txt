@@ -1,8 +1,12 @@
 .vs/*
+.vscode/*
 Functions/.vscode/*
 Eigen/out/*
+Eigen/*
 Input_files/*
 Mesh_files/*
 Results/*
 Matlab/Networks/*
 "Matlab/Network Generation/?/*"
+"Matlab/Output Generation/forcedisp/*"
+"Matlab/Output Generation/energy/*"

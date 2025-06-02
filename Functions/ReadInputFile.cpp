@@ -19,7 +19,9 @@ void ReadInputFile(string &InputFileDir,string &MeshFileDir,string &MeshFileName
 	
 	// Read input and mesh file names.
 	ifstream InputFile;
-    string InputFileName,InputFilePath;
+    // string InputFileName{"Input"}; Use this line if you want to use a default input file name.
+	string InputFileName;
+	string InputFilePath;
     cout<<endl<<"Please enter file name of the Input file"<<endl<<endl; // Ask for name of input file.
     cin>>InputFileName;
 	InputFilePath = InputFileDir+InputFileName+".txt";
