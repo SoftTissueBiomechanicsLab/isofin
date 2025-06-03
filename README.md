@@ -17,7 +17,7 @@ Isogeometric Fiber Networks Simulation tool. A complete pipeline to pre-process,
 The following is a guide to using Isofin. MATLAB scripts are used to generate networks, input files, and mesh files. The input files and mesh files are used in the C++ code to run a nonlinear finite element simulation with isogeometric beams. Then, the results output from this C++ code are analyzed using MATLAB scripts, and converted into a form readable by Paraview. Detailed steps are given below, along with relevant information.
 
 ## Creating a fiber network
-1.	Navigate to “isofin/Matlab/Network Generation”. We are going to share our fiber generation code in the near future. For now, we have shared the networks used in our paper under "Example Networks". The following code will describe how to use these networks, or any network of your own, in our analysis pipeline. To use your own 3D networksm, you must abide by the following data formatting. Your fiber network must be stored in an array named "Segment" of size (num_fibers,6). Each row corresponds to a different fiber. The first three columns correspond to the fiber's first node, and the latter three columns correspond to the fiber's other node. Additionally, you must generate a variable named "Junction" that gives the locations of each fiber junction. We define a junction as any node shared by two or more fibers. To create the Junction variable, start with the following line to get all unique node values from Segment
+1.	Navigate to “isofin/Matlab/Network Generation”. We are going to share our fiber generation code in the near future. For now, we have shared the networks used in our paper under "Example Networks". The following code will describe how to use these networks, or any network of your own, in our analysis pipeline. To use your own 3D networksm, you must abide by the following data formatting. Your fiber network must be stored in an array named "Segment" of size (num_fibers,6). Each row corresponds to a different fiber. The first three columns of a row give the coordinates of the fiber's first node, and the latter three columns give the coordinates of the fiber's other node. Additionally, you must generate a variable named "Junction" that gives the locations of each fiber junction. We define a junction as any node shared by two or more fibers. To create the Junction variable, start with the following line to get all unique node values from Segment
 ```matlab
 Junction = unique([Segment(:,1:3);Segment(:,4:6)],'rows');
 ```
@@ -44,7 +44,7 @@ function junction_number = how_many_fibers(Segment,Junction)
         end
 end
 ```
-After creating the Segment and Junction variables with the proper format, you may proceed to use your own networks in our pipeline. Here, we must note that our code is suitable for unit cube domains only, but this can easily be modified in the C++ function, "ReadInputFile.cpp". You will have to recompile the C++ code if you do this though. Future updates will make it so the domain is automatically determined, rather than built into the code.
+After creating the Segment and Junction variables with the proper format, you may proceed to use your own networks in our pipeline. Here, we must note that our code is suitable for unit cube domains only, but this can easily be modified in the C++ function, "RN_3D_BC_SimpleShear.cpp". You will have to recompile the C++ code if you do this though. Future updates will make it so the domain is automatically determined, rather than built into the code.
 
 2.	If you are using a straight fiber network, proceed to the next step. If you wish to use an undulated fiber network, you will need to use “Undulating_Networks.m”. Here, you may adjust the period to modify the undulations of the network. Be sure to properly set num_fibers and Case to match the network you want to add undulations to.
 
@@ -174,4 +174,4 @@ You can also analyze these variables to, for instance, understand how energy rat
 
 ## Troubleshoot
 Thank you for using Isofin! For any inquiries, additional help, customization, or any other problems/concerns/suggestions, please reach out to us via email.
-The original author of these codes is Soham Mane (sohammane@utexas.edu). Both Matthew J Lohr (mlohr@utexas.edu) and Sotiris Kakaletsis (kakalets@utexas.edu) edited the codes, prepared them for sharing, and created this documentation.
+The authors of these codes are Soham Mane (sohammane@utexas.edu) and Matthew J Lohr (mlohr@utexas.edu). Matthew J Lohr and Sotiris Kakaletsis (kakalets@utexas.edu) edited the codes, prepared them for sharing, and created this documentation.
