@@ -17,11 +17,11 @@ Isogeometric Fiber Networks Simulation tool. A complete pipeline to pre-process,
 The following is a guide to using Isofin. MATLAB scripts are used to generate networks, input files, and mesh files. The input files and mesh files are used in the C++ code to run a nonlinear finite element simulation with isogeometric beams. Then, the results output from this C++ code are analyzed using MATLAB scripts, and converted into a form readable by Paraview. Detailed steps are given below, along with relevant information.
 
 ## Creating a fiber network
-1.	Navigate to “isofin/Matlab/Network Generation”. We are going to share our fiber generation code in the near future. For now, we have shared the networks used in our paper under "Example Networks". The following code will describe how to use these networks, or any network of your own, in our analysis pipeline. To use your own 3D networksm, you must abide by the following data formatting. Your fiber network must be stored in an array named "Segment" of size (num_fibers,6). Each row corresponds to a different fiber. The first three columns of a row give the coordinates of the fiber's first node, and the latter three columns give the coordinates of the fiber's other node. Additionally, you must generate a variable named "Junction" that gives the locations of each fiber junction. We define a junction as any node shared by two or more fibers. To create the Junction variable, start with the following line to get all unique node values from Segment
+1.	Navigate to “isofin/Matlab/Network Generation”. "Voronoi_Network_Generator_3D.m" will create a 3D fiber network of straight fibers. Additionally, we have shared the networks used in our paper under "Example Networks". The following code will describe how to use these networks, or any network of your own, in our analysis pipeline. To use your own 3D networksm, you must abide by the following data formatting. Your fiber network must be stored in an array named "Segment" of size (num_fibers,6). Each row corresponds to a different fiber. The first three columns of a row give the coordinates of the fiber's first node, and the latter three columns give the coordinates of the fiber's other node. Additionally, you must generate a variable named "Junction" that gives the locations of each fiber junction. We define a junction as any node shared by two or more fibers. To create the Junction variable, start with the following line to get all unique node values from Segment
 ```matlab
 Junction = unique([Segment(:,1:3);Segment(:,4:6)],'rows');
 ```
-Then you must remove all nodes from Junctions that are not shared between fibers. These nodes only occur in one fiber, and must be removed from our Junctions variable. To do this, you may use the following functions
+a.  Then you must remove all nodes from Junctions that are not shared between fibers. These nodes only occur in one fiber, and must be removed from our Junctions variable. To do this, you may use the following functions (both of which are included in our repository):
 ```matlab
 function [Segment,Junction,junction_number] = adjust_network(Segment,Junction)    
     % Find how many fibers are coming out each Junction
@@ -44,7 +44,9 @@ function junction_number = how_many_fibers(Segment,Junction)
         end
 end
 ```
-After creating the Segment and Junction variables with the proper format, you may proceed to use your own networks in our pipeline. Here, we must note that our code is suitable for unit cube domains only, but this can easily be modified in the C++ function, "RN_3D_BC_SimpleShear.cpp". You will have to recompile the C++ code if you do this though. Future updates will make it so the domain is automatically determined, rather than built into the code.
+b.  We also reccomend removing fibers smaller than your chosen element size. In our pipeline, small fibers are removed in "Voronoi_Network_Generator_3D.m", along with removing stray fibers that are disconeccted from the rest of the network. Removing stray fibers is not necessary, but removing small fibers helps with convergence.
+
+c.  After creating the Segment and Junction variables with the proper format, you may proceed to use your own networks in our pipeline. Here, we must note that our code is suitable for unit cube domains only, but this can easily be modified in the C++ function, "RN_3D_BC_SimpleShear.cpp". You will have to recompile the C++ code if you do this though. Future updates will make it so the domain is automatically determined, rather than built into the code.
 
 2.	If you are using a straight fiber network, proceed to the next step. If you wish to use an undulated fiber network, you will need to use “Undulating_Networks.m”. Here, you may adjust the period to modify the undulations of the network. Be sure to properly set num_fibers and Case to match the network you want to add undulations to.
 
@@ -65,11 +67,23 @@ c.	The results files will be stored in “isofin/Results/Outputs/3D” (or 2D if
 1.	In “isofin/Matlab/Output Generation”, there are two scripts, one for generating *.vtk files for straight networks, and one for undulated networks. They are named accordingly, “Paraview_VTK_Generator_Line_3D_Straight.m” generated *vtk’s for straight fiber networks, and “Paraview_VTK_Generator_Line_3D_Undulated.m” generate *vtk’s for undulated fiber networks. Note that a *vtk file will be generated for each increment in the simulation. The script also calculates the energy and energy ratios for the fibers in the network. After running one of these scripts, you will have *.vtk files for your simulation, and may perform further analyses on your results.
 
 ## Tutorial - 3D Networks
-We will split this tutorial into four steps as listed above. First, we will use an example 3D fiber network found in "Matlab/Example Networks/Data/3D/Undulated/300". We will apply an undulation to these networks. We will use the following parameters for our undulated network. Remember to specify the correct value for "Case". Here, we will use Case1.
+We will split this tutorial into four steps as listed above. First, we will create a fiber network using "Voronoi_Network_Generator_3D.m". If you wish, you may also use an example 3D fiber network found in "Matlab/Example Networks/Data/3D/Undulated/60". First, we will navigate to "Matlab/Network Generation" and open "Voronoi_Network_Generator_3D.m". This script generates a fiber network from randomly generated voronoi seeds. It can be used to create networks with connectivity values, $z$, within the range of natural biopolymers, $z\in [3,4]$. This algorithm can only generate cube networks. We will create a network that was used in our paper. We set the following parameters:
+
+```matlab
+nseeds = 60;
+z_target = 3.4;
+CO_length = 0.01;
+round_off_edge_tol = 1e-2;
+```
+We will create eleven networks, but we will only work with one of them for this tutorial. For the biaxial portion of our work, we used networks 2, 4, and 11 generated from this run. We will work with network 4 for the remainder of this tutorial, which has been saved as Case4.mat in "Matlab/Networks/Data/3D/Straight/60' and "Matlab/Networks/Data/3D/Undulated/60'.  
+
+
+Next, we will apply an undulation to this networks. We will use the following parameters for our undulated network. Remember to specify the correct value for "Case". Here, we will use Case4.
 ```matlab
 % Specifiy network
-num_fibers = 300;
-Case=1;
+% Set num_fibers to be the same as nseed
+num_fibers = 60;
+Case=4;
 New_Case=1;
 % Row vector containing periods of sin undulations that can be introduced in the fiber.
 period = [0.5,1,1.5,2];
@@ -78,13 +92,13 @@ num_periods=size(period,2);
 % based on its length. The longer the fiber, the more options it has.
 select_period=[0,0.1,0.2,0.4]; 
 ```
-This will then create "Case1_1.m", which we will use in our next step to generate input files.
+This will then create "Case4_1.m", which we will use in our next step to generate input files.
 
 Now, we will proceed to create input and mesh files for our analysis. Within "Matlab/Input File Generation" is "Input_File_Generation.m" which creates the files necessary to run an analysis. We will use the following parameters to pick the network we just created:
 ```matlab
 type=2; % 1 for 3D straight and 2 for 3D undulated and 3 for 2D straight
-fiber_num=300;
-Case=1;
+fiber_num=60;
+Case=4;
 New_Case=1;
 % deformation_types are SSX for simple shear, UAX for uniaxial, and BIAX for biaxial.
 % You can adjust these as desired.
@@ -138,14 +152,14 @@ After that, you are ready to run the analysis. The *.cpp files we need for the a
 ```
 g++ RN_3D_Trial_UATX.cpp -o Analysis_3D -O3 -fopenmp -std=c++17
 ```
-Once compiled, we will run "Analysis_3D.exe". It will ask us to input the name of our input file, which is "input_U_BIAX_300_Case1_1_P5_MS4.txt". From there, the analysis begins. Here we would like to note: if your first strain increment is -nan%, the paths to your input and mesh files are incorrect. The analysis will take some time; on our machine, it took 46 minutes with 24 cores. The results files were saved in "isofin/Results/Outputs/3D". Next, we will turn these results files into *.vtk files and view them in ParaView.
+Once compiled, we will run "Analysis_3D.exe". It will ask us to input the name of our input file, which is "input_U_BIAX_60_Case4_1_P5_MS4.txt". From there, the analysis begins. Here we would like to note: if your first strain increment is -nan%, the paths to your input and mesh files are incorrect. The analysis will take some time; on our machine, it took 46 minutes with 24 cores. The results files were saved in "isofin/Results/Outputs/3D". Next, we will turn these results files into *.vtk files and view them in ParaView.
 
 For our final step, we will navigate to "isofin/Matlab/Output Generation". Because we created an undulated network, we will use "Paraview_VTK_Generator_Line_3D_Undulated.m". Be sure to select the correct deformation, fiber number, Case numbers, and network parameters for your network. Here, we use the following:
 ```matlab
 % Select deformation type for results
 deformation_type = 'BIAX';
 % Select fiber number and case numbers for files
-fiber_num=300; Case=1; New_Case=1; 
+fiber_num=60; Case=4; New_Case=1; 
 
 % Assign other parameters the same as in "Input_File_Generation.m"
 power=4; ele_size=0.4/(2^(power));
@@ -170,7 +184,7 @@ Next, you can open your results in ParaView. The following variables are output:
 7) se: Shear energy
 8) te: Torsion energy
 
-You can also analyze these variables to, for instance, understand how energy ratios change throughout the deformation for a given loading and type of fiber network. To analyze the energies of your network, we will first run "Plot_Results.m" which will save the force and displacement data from our simulations. Here, set the correct fiber_num, type, and deformation_type to plot the force-dispalcemnt curves and save the data in "forcedisp/". Then, run "Energy_Calculation.m". This script will plot the total energies and energy ratios of your network, and it will save them in the folder "energy/". 
+You can also analyze these variables to, for instance, understand how energy ratios change throughout the deformation for a given loading and type of fiber network. To analyze the energies of your network, we will first run "Plot_Results.m" which will save the force and displacement data from our simulations. Here, set the correct fiber_num, type, and deformation_type to plot the force-displacment curves and save the data in "forcedisp/". Then, run "Energy_Calculation.m". This script will plot the total energies and energy ratios of your network, and it will save them in the folder "energy/". 
 
 ## Troubleshoot
 Thank you for using Isofin! For any inquiries, additional help, customization, or any other problems/concerns/suggestions, please reach out to us via email.
