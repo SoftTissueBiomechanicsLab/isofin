@@ -8,10 +8,11 @@ addpath('../Formulation/German Formulation/With Torsion/Functions_RN Parallel/3D
 addpath('Functions')
 
 %% 3D Network :
-type=1; % 1 for 3D straight and 2 for 3D undulated and 3 for 2D straight
-fiber_num = 400;
-E_ind = 0;
-for Case= 1    
+type=2; % 1 for 3D straight and 2 for 3D undulated and 3 for 2D straight
+% fiber_num is the seed number from Voronoi_Network_Generator. You may use
+% another naming convention, like the number of fibers in the network
+fiber_num = 60;
+for Case= 2   
     New_Case=1;
     % deformation_types are SSX for simple shear, UAX for uniaxial, 
     % BIAX for biaxial, and PS for pure shear representative cube.
@@ -46,7 +47,6 @@ for power=4
         Amp=0.025;
         % Load network geometry        
         filename = ['../Networks/Data/3D/Undulated/',num2str(fiber_num),'/Case',num2str(Case),'_',num2str(New_Case)];        
-        % side_length = 1;
         load(filename)
 
         %% Input File parameters        
@@ -120,9 +120,9 @@ Face_F(6,:)=[0,0,0,0]; % Face 6 (z=0)
 
 %% Analysis parameters
 num_threads=24; % No of cores requested for analysis
-num_inc=10; % No of increments.
+num_inc=100; % No of increments.
 max_numiter=125; % Max no of iterations per increment
-max_attempts=4; % Max attempts per increment. (applied displacement halved per attempt)
+max_attempts=5; % Max attempts per increment. (applied displacement halved per attempt)
 tol_D=10^-2;tol_R=5*10^-3; % tolerence for displacement and residue criterion.
 
 %% Generate Mesh

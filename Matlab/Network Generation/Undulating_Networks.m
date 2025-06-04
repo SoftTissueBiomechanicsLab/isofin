@@ -4,9 +4,9 @@ clearvars; close all; clc;
 
 addpath Functions
 %% Specify networks to undulate using num_fibers and Case
-num_fibers = 400;
+num_fibers = 30;
 
-for Case=1
+for Case=1:4
     % Select New_Case number for the newly undulated network
     New_Case=1;
     % Row vector containing periods of sin undulations that can be introduced in the fiber.

@@ -12,11 +12,10 @@ addpath('../Formulation/German Formulation/With Torsion/Functions_RN Parallel/3D
 % Select deformation type for results
 deformation_type = 'BIAX';
 % Select fiber number and case numbers for files
-fiber_num=400; 
-Case = 1; 
-    New_Case=1; 
-rotation = 1;
-voronoi = 1;
+fiber_num=60; 
+Case = 2; 
+New_Case=1; 
+
 
 % Assign other parameters the same as in "Input_File_Generation.m"
 power=4; ele_size=0.4/(2^(power));
@@ -31,7 +30,7 @@ path_c = '../../Results/Outputs/';
 load(['../Networks/Data/3D/Undulated/',num2str(fiber_num),'/Case',num2str(Case),'_',num2str(New_Case)]);
 
 % Load results file
-MeshFileName=['Undulated_',deformation_type,'_',num2str(fiber_num),'_Case',num2str(Case),'_',num2str(New_Case),'_P',num2str(order),MS,'_',num2str(rotation)];
+MeshFileName=['Undulated_',deformation_type,'_',num2str(fiber_num),'_Case',num2str(Case),'_',num2str(New_Case),'_P',num2str(order),MS];
 ResultFileName=[MeshFileName,'_Result.txt'];
 ResultFilePath_c=[path_c,ResultFileName];
 CPTS=importdata(ResultFilePath_c);

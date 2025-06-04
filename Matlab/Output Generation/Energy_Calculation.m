@@ -32,16 +32,9 @@ network_name=strcat(folder_name,'_',deformation_type,'_Case',num2str(Case),'_P',
 
 switch type
 
-    case 1
-
-    
-        path_c = '../../Results/Outputs/'; %#ok<*UNRCH>
-    
-
-    
-    load(['../Networks/Data/3D/Straight/',num2str(fiber_num),'/Case',num2str(Case)]);
-    
-    
+    case 1    
+    path_c = '../../Results/Outputs/'; %#ok<*UNRCH>
+    load(['../Networks/Data/3D/Straight/',num2str(fiber_num),'/Case',num2str(Case)]);  
     % Load results file
     MeshFileName=['Straight_',deformation_type,'_',num2str(fiber_num),'_Case',num2str(Case),'_P',num2str(order),MS,'_',num2str(bc_rotation)];
     ResultFileName=[MeshFileName,'_Result.txt'];
@@ -49,7 +42,6 @@ switch type
     CPTS=importdata(ResultFilePath_c);
     
     filepath = ['../../Results/Paraview/3D/',num2str(fiber_num),'_',num2str(Case),'/',deformation_type];
-    % filepath = ['../../Results/Paraview/voronoi/',num2str(fiber_num),'/',deformation_type,'/',num2str(Case)];
     
     if ~exist(filepath,'dir')
         mkdir(filepath);
@@ -181,9 +173,7 @@ function arc_start = find_first_arc(Patch)
             if size(cpt,2) ~= 4
                 arc_start = 0;
             end
-        end
-            
+        end            
     end
     
-
 end
