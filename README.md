@@ -67,6 +67,7 @@ c.	The results files will be stored in “isofin/Results/Outputs/3D” (or 2D if
 1.	In “isofin/Matlab/Output Generation/”, there are two scripts, one for generating *.vtk files for straight networks, and one for undulated networks. They are named accordingly, “Paraview_VTK_Generator_Line_3D_Straight.m” generated *vtk’s for straight fiber networks, and “Paraview_VTK_Generator_Line_3D_Undulated.m” generate *vtk’s for undulated fiber networks. Note that a *vtk file will be generated for each increment in the simulation. The script also calculates the energy and energy ratios for the fibers in the network. After running one of these scripts, you will have *.vtk files for your simulation, and may perform further analyses on your results.
 
 ## Tutorial - 3D Networks
+![](logo/representative_network.png)
 We will split this tutorial into four steps as listed above. First, we will create a fiber network using "Voronoi_Network_Generator_3D.m". If you wish, you may also use an example 3D fiber network found in "Matlab/Example Networks/Data/3D/Undulated/60/". First, we will navigate to "Matlab/Network Generation/" and open "Voronoi_Network_Generator_3D.m". This script generates a fiber network from randomly generated voronoi seeds. It can be used to create networks with connectivity values, $z$, within the range of natural biopolymers, $z\in [3,4]$. This algorithm can only generate cube networks. We will create a network that was used in our paper. We set the following parameters:
 
 ```matlab
